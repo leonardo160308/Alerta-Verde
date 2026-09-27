@@ -47,8 +47,8 @@ window.AV = window.AV || {};
     li.innerHTML =
       '<span class="campana-tipo campana-tipo--' + c.tipo + '">' + c.tipoLabel + "</span>" +
       "<h3>" + c.nombre + "</h3>" +
-      '<p class="campana-meta"><span>📅 ' + AV.formatFecha(c.fecha) + " · " + c.duracion + "</span>" +
-      "<span>📍 " + c.ubicacion + "</span></p>" +
+      '<p class="campana-meta"><span>' + AV.formatFecha(c.fecha) + " · " + c.duracion + "</span>" +
+      "<span>" + c.ubicacion + "</span></p>" +
       "<p>" + c.descripcion + "</p>" +
       '<p class="campana-info">' + c.infoAdicional + "</p>" +
       '<p class="campana-cupo"></p>' +

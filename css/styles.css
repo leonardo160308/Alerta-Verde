@@ -626,3 +626,98 @@ fieldset legend {
   height: 260px; border-radius: var(--radius-sm); overflow: hidden; margin-top: var(--space-md);
   border: 1px solid var(--color-border); box-shadow: var(--shadow-sm);
 }
+
+/* =========================================================
+   Inicio — Hero con imagen, Quiénes somos, Objetivo,
+   Campaña destacada y tarjetas "Súmate a la comunidad".
+   ========================================================= */
+
+/* Hero en dos columnas: texto + espacio para foto (se apila en móvil) */
+.hero .container { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: var(--space-3xl); align-items: center; }
+.hero-media .image-placeholder { aspect-ratio: 4/3; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.35); color: rgba(255,255,255,0.75); }
+@media (max-width: 899px) {
+  .hero .container { grid-template-columns: 1fr; }
+  .hero-media { order: -1; }
+}
+
+/* Placeholder de imagen reutilizable: marca dónde se ve mejor una foto
+   mientras no hay una. Para sustituirlo, borra el <div class="image-placeholder">…</div>
+   y pon en su lugar <img src="img/tu-foto.jpg" alt="Descripción de la foto"> */
+.image-placeholder {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-sm);
+  border: 2px dashed var(--color-border); border-radius: var(--radius-md);
+  background: var(--color-bg-secondary); color: var(--color-text-secondary);
+  text-align: center; padding: var(--space-xl); min-height: 220px; aspect-ratio: 4/3;
+  font-size: var(--font-size-small);
+}
+.image-placeholder__icon { font-size: 2rem; line-height: 1; opacity: 0.7; }
+.image-placeholder__label { max-width: 220px; }
+
+/* Quiénes somos / Nuestro objetivo: texto + imagen alternados */
+.about-section { padding: var(--space-4xl) 0; }
+.about-section.is-alt { background: var(--color-bg-secondary); }
+.about-section .container { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-3xl); align-items: center; }
+.about-section.is-reverse .container { direction: rtl; }
+.about-section.is-reverse .container > * { direction: ltr; }
+.eyebrow { display: block; text-transform: uppercase; letter-spacing: 0.12em; font-size: var(--font-size-label); color: var(--color-brand-accent); font-weight: 600; margin-bottom: var(--space-sm); }
+.about-section p:last-of-type { margin-bottom: 0; }
+.about-list { list-style: none; margin: var(--space-lg) 0 0; padding: 0; display: grid; gap: var(--space-sm); }
+.about-list li { padding-left: var(--space-lg); position: relative; color: var(--color-text-secondary); }
+.about-list li::before { content: "✓"; position: absolute; left: 0; color: var(--color-brand-primary); font-weight: 700; }
+.value-quote {
+  font-family: var(--font-display); font-style: italic; font-size: var(--font-size-h4); color: var(--color-brand-primary-dark);
+  border-left: 3px solid var(--color-brand-accent); padding-left: var(--space-lg); margin: var(--space-xl) 0;
+}
+@media (max-width: 899px) {
+  .about-section .container { grid-template-columns: 1fr; }
+  .about-section.is-reverse .container { direction: ltr; }
+}
+
+/* Campaña destacada (vista previa en el Inicio) */
+.campana-destacada { padding: var(--space-4xl) 0; }
+.campana-destacada .container { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); gap: var(--space-3xl); align-items: center; }
+.campana-destacada-card {
+  background: #fff; border: 1px solid var(--color-border); border-radius: var(--radius-md);
+  padding: var(--space-2xl); box-shadow: var(--shadow-sm);
+}
+.campana-destacada-card .campana-tipo { margin-bottom: var(--space-md); }
+.campana-destacada-card h3 { margin-bottom: var(--space-sm); }
+.campana-destacada-card .campana-meta { margin-bottom: var(--space-lg); }
+.campana-destacada-note { font-size: var(--font-size-small); color: var(--color-text-secondary); font-style: italic; margin: var(--space-lg) 0 0; }
+/* Este bloque es una vista previa de ejemplo: cuando tengas campañas reales
+   confirmadas, esta tarjeta puede seguir usándose como aparador con la más
+   próxima. La foto es la que tú agregues en el <div class="image-placeholder"> de al lado. */
+@media (max-width: 899px) {
+  .campana-destacada .container { grid-template-columns: 1fr; }
+}
+
+/* Súmate a la comunidad (tarjetas de exploración) */
+.explore { padding: var(--space-4xl) 0 var(--space-5xl); background: var(--color-bg-secondary); }
+.explore-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-xl); margin-top: var(--space-xl); }
+.explore-card {
+  display: block; background: #fff; border: 1px solid var(--color-border); border-radius: var(--radius-md);
+  padding: var(--space-2xl); text-decoration: none; color: inherit; box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+.explore-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+.explore-card h3 { color: var(--color-brand-primary-dark); margin-bottom: var(--space-sm); }
+.explore-card p { color: var(--color-text-secondary); margin-bottom: var(--space-md); font-size: var(--font-size-small); }
+.explore-cta { font-weight: 600; color: var(--color-brand-accent); font-size: var(--font-size-small); }
+
+/* =========================================================
+   Campañas (listado en campanas.html)
+   ========================================================= */
+.campanas-page { padding: var(--space-3xl) 0 var(--space-5xl); }
+.campanas-page > p { max-width: 760px; color: var(--color-text-secondary); }
+.campanas-grid { list-style: none; margin: var(--space-xl) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-xl); }
+.campana-card { background: #fff; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-2xl); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; }
+.campana-tipo { display: inline-flex; align-self: flex-start; padding: 3px 12px; border-radius: var(--radius-pill); font-size: var(--font-size-label); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: var(--space-md); color: #fff; }
+.campana-tipo--reforestacion { background: var(--color-success); }
+.campana-tipo--limpieza { background: var(--color-info); }
+.campana-tipo--recuperacion { background: var(--color-warning); }
+.campana-card h3 { font-size: var(--font-size-h4); margin-bottom: var(--space-sm); }
+.campana-meta { display: flex; flex-direction: column; gap: 4px; font-size: var(--font-size-small); color: var(--color-text-secondary); margin-bottom: var(--space-md); }
+.campana-info { font-size: var(--font-size-small); color: var(--color-text-secondary); font-style: italic; }
+.campana-cupo { font-size: var(--font-size-small); font-weight: 600; color: var(--color-brand-primary-dark); margin: auto 0 var(--space-md); padding-top: var(--space-md); }
+.campana-btn { width: 100%; }
+.campana-feedback { font-size: var(--font-size-small); color: var(--color-success); margin: var(--space-sm) 0 0; min-height: 1.2em; font-weight: 500; }

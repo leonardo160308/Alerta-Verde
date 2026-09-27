@@ -9,9 +9,10 @@ window.AV = window.AV || {};
    puede restringir por dominio desde el dashboard de Mapbox
    (Account → Tokens → URL restrictions). */
 AV.config = AV.config || {
-  MAPBOX_TOKEN: "",
+  // Pon el token pk. directamente aquí. ¡Es completamente seguro!
+  MAPBOX_TOKEN: "pk.eyJ1IjoibGVvb28xNjIxIiwiYSI6ImNtdWplNXZhMDAzaHMyd3BzM2lrcGtvZmIifQ.DkJGIcJHenPTxhjTRo9gtw",
   MAPBOX_STYLE: "mapbox://styles/mapbox/light-v11",
-  MAPA_CENTER: [-99.1332, 19.4326], // CDMX (Zócalo), usado como encuadre inicial
+  MAPA_CENTER: [-99.1332, 19.4326],
   MAPA_ZOOM: 10.5
 };
 
