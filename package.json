@@ -1,0 +1,26 @@
+{
+  "name": "alerta-verde",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node tests/test-mapa.js"
+  },
+  "devDependencies": {
+    "jsdom": "^25.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leonardo160308/Alerta-Verde.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leonardo160308/Alerta-Verde/issues"
+  },
+  "homepage": "https://github.com/leonardo160308/Alerta-Verde#readme"
+}
