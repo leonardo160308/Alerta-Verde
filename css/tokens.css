@@ -1,0 +1,73 @@
+/* =========================================================
+   Alerta Verde — Design Tokens
+   Fuente: Fase 2 — Sistema de Diseño Visual.
+   Única fuente de verdad para color, tipografía, espaciado,
+   radios y transición. No se editan valores fuera de este
+   archivo sin actualizar también la Fase 2.
+   ========================================================= */
+
+:root {
+  /* Color — marca */
+  --color-brand-primary: #1E5631;
+  --color-brand-primary-dark: #123C22;
+  --color-accent-warm: #A9784B;
+  --color-accent-sage: #7C9473;
+
+  /* Color — superficie y texto */
+  --color-bg-primary: #F7F5F0;
+  --color-bg-secondary: #EDEAE2;
+  --color-text-primary: #1B1B18;
+  --color-text-secondary: #5B6259;
+  --color-border: #D8D3C7;
+
+  /* Color — feedback */
+  --color-success: #2A6E49;
+  --color-warning: #8A5A14;
+  --color-warning-bg: #F4E6CC;
+  --color-error: #A6402F;
+  --color-info: #3D6C8C;
+
+  /* Tipografía */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Source Sans 3", -apple-system, "Segoe UI", sans-serif;
+
+  --font-size-h1: 2.5rem;
+  --font-size-h2: 2rem;
+  --font-size-h3: 1.5rem;
+  --font-size-h4: 1.25rem;
+  --font-size-body: 1rem;
+  --font-size-small: 0.875rem;
+  --font-size-label: 0.8125rem;
+
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Espaciado — escala base de 4px */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 0.75rem;
+  --space-lg: 1rem;
+  --space-xl: 1.5rem;
+  --space-2xl: 2rem;
+  --space-3xl: 3rem;
+  --space-4xl: 4rem;
+  --space-5xl: 6rem;
+
+  /* Radios */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-pill: 999px;
+
+  /* Sombra editorial discreta */
+  --shadow-card: 0 1px 2px rgba(18, 60, 34, 0.06), 0 4px 12px rgba(18, 60, 34, 0.06);
+
+  /* Transición estándar */
+  --transition-base: 180ms ease;
+
+  /* Contenedor */
+  --container-max: 1200px;
+}
+
+/* Breakpoints de referencia (documentales):
+   móvil 0–599px · tablet 600–1023px · laptop 1024–1439px · escritorio 1440px+ */

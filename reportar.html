@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reportar una afectación — Alerta Verde</title>
+<meta name="description" content="Formulario ciudadano para reportar afectaciones en espacios verdes: ubicación, categoría, descripción y evidencia fotográfica.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/styles.css">
+<script src="js/nav.js" defer></script>
+<script src="js/data/categories.js" defer></script>
+<script src="js/data/reports.js" defer></script>
+<script src="js/modules/geolocation.js" defer></script>
+<script src="js/modules/photoUpload.js" defer></script>
+<script src="js/modules/reportForm.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido principal</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="index.html">Alerta Verde</a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-primary-list">Menú</button>
+    <nav class="nav-primary" aria-label="Navegación principal">
+      <ul id="nav-primary-list">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="reportar.html" aria-current="page">Reportar</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <div class="container form-page">
+    <p class="breadcrumb"><a href="index.html">Inicio</a> / Reportar</p>
+    <h1>Reportar una afectación</h1>
+    <p>Completa los siguientes pasos para documentar una afectación en un espacio verde. Podrás revisar y editar tu información antes de enviarla. Ningún dato se envía a un servidor: este es un prototipo de demostración.</p>
+
+    <ol class="stepper" aria-label="Progreso del formulario">
+      <li class="stepper__item" data-step-indicator="1"><span class="stepper__number">1</span><span class="stepper__label">Ubicación</span></li>
+      <li class="stepper__item" data-step-indicator="2"><span class="stepper__number">2</span><span class="stepper__label">Categoría</span></li>
+      <li class="stepper__item" data-step-indicator="3"><span class="stepper__number">3</span><span class="stepper__label">Descripción</span></li>
+      <li class="stepper__item" data-step-indicator="4"><span class="stepper__number">4</span><span class="stepper__label">Evidencia</span></li>
+      <li class="stepper__item" data-step-indicator="5"><span class="stepper__number">5</span><span class="stepper__label">Revisión</span></li>
+    </ol>
+
+    <div id="form-alert" class="form-alert" role="alert" aria-live="assertive" hidden></div>
+
+    <form id="report-form" novalidate>
+      <fieldset class="form-step" data-step="1">
+        <legend>Paso 1 de 5 — Ubicación</legend>
+
+        <div class="field">
+          <button type="button" id="geo-button" class="button button-secondary">Usar mi ubicación actual</button>
+          <p id="geo-status" class="field-hint" aria-live="polite"></p>
+          <input type="hidden" id="geo-lat" name="geoLat">
+          <input type="hidden" id="geo-lng" name="geoLng">
+        </div>
+
+        <div class="field">
+          <label for="direccion">Dirección o punto de referencia</label>
+          <input type="text" id="direccion" name="direccion" required aria-describedby="direccion-error" autocomplete="off">
+          <p class="field-error" id="direccion-error" aria-live="polite"></p>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-step" data-step="2" hidden>
+        <legend>Paso 2 de 5 — Categoría de la afectación</legend>
+        <div class="field">
+          <div class="radio-group" id="categoria-group" role="radiogroup" aria-describedby="categoria-error"></div>
+          <p class="field-error" id="categoria-error" aria-live="polite"></p>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-step" data-step="3" hidden>
+        <legend>Paso 3 de 5 — Descripción</legend>
+        <div class="field">
+          <label for="descripcion">Describe lo que observaste</label>
+          <textarea id="descripcion" name="descripcion" rows="6" minlength="20" maxlength="500" required aria-describedby="descripcion-hint descripcion-error"></textarea>
+          <p class="field-hint" id="descripcion-hint"><span id="descripcion-count">0</span>/500 caracteres (mínimo 20)</p>
+          <p class="field-error" id="descripcion-error" aria-live="polite"></p>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-step" data-step="4" hidden>
+        <legend>Paso 4 de 5 — Evidencia fotográfica (opcional)</legend>
+        <div class="field">
+          <div class="upload-zone" id="upload-zone" tabindex="0" role="button" aria-label="Seleccionar o arrastrar fotografías" aria-describedby="upload-hint upload-error">
+            <p>Arrastra tus fotografías aquí o presiona para seleccionarlas</p>
+          </div>
+          <input type="file" id="upload-input" accept="image/png,image/jpeg,image/webp" multiple tabindex="-1" class="visually-hidden">
+          <p class="field-hint" id="upload-hint">Formatos JPG, PNG o WEBP · máximo 3 archivos · 5 MB cada uno</p>
+          <p class="field-error" id="upload-error" aria-live="polite"></p>
+          <ul class="upload-preview-list" id="upload-preview-list"></ul>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-step" data-step="5" hidden>
+        <legend>Paso 5 de 5 — Revisión</legend>
+        <div class="review-summary" id="review-summary"></div>
+      </fieldset>
+
+      <div class="form-actions">
+        <button type="button" id="prev-button" class="button button-text" hidden>Anterior</button>
+        <button type="button" id="next-button" class="button button-primary">Siguiente</button>
+        <button type="submit" id="submit-button" class="button button-primary" hidden>Enviar reporte</button>
+      </div>
+    </form>
+
+    <div id="loading-panel" class="loading-panel" hidden aria-live="polite">
+      <p>Enviando tu reporte…</p>
+    </div>
+
+    <div id="success-panel" class="success-panel" hidden>
+      <h2>Reporte enviado</h2>
+      <p>Tu folio es <strong id="success-folio"></strong>. Guárdalo para dar seguimiento a tu reporte cuando esa función esté disponible.</p>
+      <div id="success-summary"></div>
+      <div class="form-actions">
+        <a href="index.html" class="button button-secondary">Volver al inicio</a>
+        <button type="button" id="new-report-button" class="button button-primary">Crear otro reporte</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <h2>Alerta Verde</h2>
+    <p>Tecnología ciudadana para la protección de espacios verdes.</p>
+    <p class="footer-note">Este sitio es una maqueta funcional de frontend; los datos se generan y almacenan localmente en tu navegador con fines de demostración.</p>
+  </div>
+</footer>
+</body>
+</html>
