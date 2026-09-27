@@ -71,7 +71,8 @@
 
         <div class="field">
           <label for="direccion">Dirección o punto de referencia</label>
-          <input type="text" id="direccion" name="direccion" required aria-describedby="direccion-error" autocomplete="off">
+          <input type="text" id="direccion" name="direccion" required readonly aria-describedby="direccion-hint direccion-error" autocomplete="off">
+          <p class="field-hint" id="direccion-hint">Se completa automáticamente al usar tu ubicación actual. Si tu navegador no puede detectarla, podrás escribirla aquí.</p>
           <p class="field-error" id="direccion-error" aria-live="polite"></p>
         </div>
       </fieldset>

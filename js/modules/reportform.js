@@ -75,7 +75,7 @@ window.AV = window.AV || {};
     if (n === 1) {
       var direccion = $("direccion");
       if (!direccion.value.trim()) {
-        $("direccion-error").textContent = "Indica una dirección o punto de referencia.";
+        $("direccion-error").textContent = "Usa el botón «Usar mi ubicación actual» para completar este campo.";
         direccion.setAttribute("aria-invalid", "true");
         direccion.focus();
         return false;

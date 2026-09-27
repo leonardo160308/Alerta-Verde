@@ -53,3 +53,10 @@ AV.data.getCategoryLabel = function (id) {
   }
   return id || "Sin categoría";
 };
+
+/* Enlace universal a Google Maps para un par de coordenadas: abre la
+   app de Maps si está instalada (móvil) o el sitio web (escritorio),
+   sin requerir ninguna clave. */
+AV.mapsUrl = function (lat, lng) {
+  return "https://www.google.com/maps/search/?api=1&query=" + lat + "," + lng;
+};

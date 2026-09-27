@@ -204,14 +204,26 @@ window.AV = window.AV || {};
         '<span class="reporte-card__folio">' + r.id + "</span>" +
         badgeHTML(r.estado) +
         "<h3>" + AV.data.getCategoryLabel(r.categoria) + "</h3>" +
-        '<p class="reporte-card__ubicacion">' + r.direccion +
-          (r.ubicacionAproximada ? ' <span class="reporte-card__aprox">(ubicación aproximada)</span>' : "") + "</p>" +
         '<p class="reporte-card__fecha">' + AV.formatFecha(r.fecha) + "</p>" +
         '<p class="reporte-card__desc">' + r.descripcion + "</p>" +
         '<span class="reporte-card__cta" aria-hidden="true">Ver seguimiento →</span>';
       btn.addEventListener("click", function () { seleccionarReporte(r.id, btn); });
 
+      /* La dirección va como enlace independiente (no dentro del
+         botón: un <a> no puede anidarse dentro de un <button> sin
+         romper la accesibilidad) que abre la ubicación en Google
+         Maps en una pestaña nueva. */
+      var enlaceMapa = document.createElement("a");
+      enlaceMapa.className = "reporte-card__ubicacion";
+      enlaceMapa.href = AV.mapsUrl(r.lat, r.lng);
+      enlaceMapa.target = "_blank";
+      enlaceMapa.rel = "noopener noreferrer";
+      enlaceMapa.innerHTML = "📍 " + r.direccion +
+        (r.ubicacionAproximada ? ' <span class="reporte-card__aprox">(ubicación aproximada)</span>' : "") +
+        ' <span class="visually-hidden">— abre en Google Maps, en una pestaña nueva</span>';
+
       li.appendChild(btn);
+      li.appendChild(enlaceMapa);
       elCards.appendChild(li);
     });
   }
@@ -232,7 +244,9 @@ window.AV = window.AV || {};
       "<dl>" +
       "<dt>Folio</dt><dd>" + report.id + "</dd>" +
       "<dt>Categoría</dt><dd>" + AV.data.getCategoryLabel(report.categoria) + "</dd>" +
-      "<dt>Ubicación</dt><dd>" + report.direccion + (report.ubicacionAproximada ? " (ubicación aproximada)" : "") + "</dd>" +
+      "<dt>Ubicación</dt><dd><a href=\"" + AV.mapsUrl(report.lat, report.lng) + "\" target=\"_blank\" rel=\"noopener noreferrer\">" +
+        report.direccion + "</a> <span class=\"visually-hidden\">— abre en Google Maps, en una pestaña nueva</span>" +
+        (report.ubicacionAproximada ? " (ubicación aproximada)" : "") + "</dd>" +
       "<dt>Fecha de reporte</dt><dd>" + AV.formatFecha(report.fecha) + "</dd>" +
       "<dt>Estado actual</dt><dd>" + badgeHTML(report.estado) + "</dd>" +
       "<dt>Descripción</dt><dd>" + report.descripcion + "</dd>" +
