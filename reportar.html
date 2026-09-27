@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/styles.css">
 <script src="js/nav.js" defer></script>
+<script src="js/util.js" defer></script>
 <script src="js/data/categories.js" defer></script>
 <script src="js/data/reports.js" defer></script>
 <script src="js/modules/geolocation.js" defer></script>
@@ -28,6 +29,8 @@
       <ul id="nav-primary-list">
         <li><a href="index.html">Inicio</a></li>
         <li><a href="reportar.html" aria-current="page">Reportar</a></li>
+        <li><a href="mapa.html">Mapa de reportes</a></li>
+        <li><a href="campanas.html">Campañas</a></li>
       </ul>
     </nav>
   </div>
@@ -116,8 +119,9 @@
 
     <div id="success-panel" class="success-panel" hidden>
       <h2>Reporte enviado</h2>
-      <p>Tu folio es <strong id="success-folio"></strong>. Guárdalo para dar seguimiento a tu reporte cuando esa función esté disponible.</p>
+      <p>Tu folio es <strong id="success-folio"></strong>. Guárdalo para dar seguimiento a tu reporte.</p>
       <div id="success-summary"></div>
+      <p><a id="success-map-link" href="mapa.html" class="button-text">Ver este reporte en el mapa de seguimiento →</a></p>
       <div class="form-actions">
         <a href="index.html" class="button button-secondary">Volver al inicio</a>
         <button type="button" id="new-report-button" class="button button-primary">Crear otro reporte</button>

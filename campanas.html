@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campañas comunitarias — Alerta Verde</title>
+<meta name="description" content="Súmate a campañas comunitarias de reforestación, limpieza y recuperación de espacios verdes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/styles.css">
+<script src="js/nav.js" defer></script>
+<script src="js/util.js" defer></script>
+<script src="js/data/campaigns.js" defer></script>
+<script src="js/modules/campanas.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido principal</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="index.html">Alerta Verde</a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-primary-list">Menú</button>
+    <nav class="nav-primary" aria-label="Navegación principal">
+      <ul id="nav-primary-list">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="reportar.html">Reportar</a></li>
+        <li><a href="mapa.html">Mapa de reportes</a></li>
+        <li><a href="campanas.html" aria-current="page">Campañas</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <div class="container campanas-page">
+    <p class="breadcrumb"><a href="index.html">Inicio</a> / Campañas</p>
+    <h1>Campañas comunitarias</h1>
+    <p>Súmate a jornadas de reforestación, limpieza y recuperación de espacios verdes organizadas por la comunidad. Confirmar tu participación es una simulación: no se envía ningún dato a un servidor ni se comparte tu información; el registro solo se guarda en este navegador.</p>
+
+    <div id="campanas-empty" class="empty-state" hidden>Por el momento no hay campañas programadas. Vuelve pronto.</div>
+    <ul class="campanas-grid" id="campanas-grid"></ul>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <h2>Alerta Verde</h2>
+    <p>Tecnología ciudadana para la protección de espacios verdes.</p>
+    <p class="footer-note">Este sitio es una maqueta funcional de frontend; los datos se generan y almacenan localmente en tu navegador con fines de demostración.</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -6,67 +6,71 @@
    archivo sin actualizar también la Fase 2.
    ========================================================= */
 
+/* Importación de fuentes premium: Cormorant Garamond (Serif clásica) e Inter (Sans-serif limpia) */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
 :root {
-  /* Color — marca */
-  --color-brand-primary: #1E5631;
-  --color-brand-primary-dark: #123C22;
-  --color-accent-warm: #A9784B;
-  --color-accent-sage: #7C9473;
+  /* Color — marca (Premium Corporate) */
+  --color-brand-primary: #1A3622; /* Verde bosque profundo y elegante */
+  --color-brand-primary-dark: #0D1E12; /* Verde casi negro para máxima seriedad */
+  --color-accent-warm: #C5A059; /* Acento champaña/dorado apagado (Premium) */
+  --color-accent-sage: #6B7B6A; /* Tono salvia grisáceo más sobrio */
 
-  /* Color — superficie y texto */
-  --color-bg-primary: #F7F5F0;
-  --color-bg-secondary: #EDEAE2;
-  --color-text-primary: #1B1B18;
-  --color-text-secondary: #5B6259;
-  --color-border: #D8D3C7;
+  /* Color — superficie y texto (Old Money / Editorial) */
+  --color-bg-primary: #FCFBF8; /* Blanco roto / Crema ultra sutil */
+  --color-bg-secondary: #F3F1EC; /* Beige grisáceo para fondos y tarjetas */
+  --color-text-primary: #212522; /* Carbón oscuro, menos agresivo que el negro puro */
+  --color-text-secondary: #5C635E; /* Gris con un levísimo subtono verde */
+  --color-border: #E2E0D8; /* Bordes suaves y elegantes */
 
-  /* Color — feedback */
-  --color-success: #2A6E49;
-  --color-warning: #8A5A14;
-  --color-warning-bg: #F4E6CC;
-  --color-error: #A6402F;
-  --color-info: #3D6C8C;
+  /* Color — feedback (Sobrios, no chillantes) */
+  --color-success: #285935;
+  --color-warning: #996A22;
+  --color-warning-bg: #F8F1E5;
+  --color-error: #9E2A2B; /* Rojo vino oscuro */
+  --color-info: #2B5773;
 
-  /* Tipografía */
-  --font-display: "Fraunces", Georgia, serif;
-  --font-body: "Source Sans 3", -apple-system, "Segoe UI", sans-serif;
+  /* Tipografía (Autoridad y Claridad) */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, "Segoe UI", sans-serif;
 
-  --font-size-h1: 2.5rem;
-  --font-size-h2: 2rem;
-  --font-size-h3: 1.5rem;
+  /* Escala más pronunciada para mayor contraste jerárquico */
+  --font-size-h1: 3.5rem;
+  --font-size-h2: 2.5rem;
+  --font-size-h3: 1.75rem;
   --font-size-h4: 1.25rem;
   --font-size-body: 1rem;
   --font-size-small: 0.875rem;
-  --font-size-label: 0.8125rem;
+  --font-size-label: 0.75rem; /* Más pequeño para etiquetas en mayúsculas */
 
   --font-weight-regular: 400;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  /* Espaciado — escala base de 4px */
+  /* Espaciado — escala base adaptada para dar "respiro" al diseño premium */
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
-  --space-md: 0.75rem;
-  --space-lg: 1rem;
-  --space-xl: 1.5rem;
-  --space-2xl: 2rem;
-  --space-3xl: 3rem;
-  --space-4xl: 4rem;
-  --space-5xl: 6rem;
+  --space-md: 1rem;     /* Ajustado para mejor ritmo vertical */
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 3.5rem;
+  --space-3xl: 5rem;
+  --space-4xl: 7rem;
+  --space-5xl: 10rem;
 
-  /* Radios */
-  --radius-sm: 4px;
-  --radius-md: 6px;
+  /* Radios (Menos redondos = más serios y formales) */
+  --radius-sm: 2px;
+  --radius-md: 4px;
   --radius-pill: 999px;
 
-  /* Sombra editorial discreta */
-  --shadow-card: 0 1px 2px rgba(18, 60, 34, 0.06), 0 4px 12px rgba(18, 60, 34, 0.06);
+  /* Sombra editorial discreta y profunda */
+  --shadow-card: 0 4px 12px rgba(13, 30, 18, 0.04), 0 10px 30px rgba(13, 30, 18, 0.08);
 
-  /* Transición estándar */
-  --transition-base: 180ms ease;
+  /* Transición estándar (Más suave y fluida) */
+  --transition-base: 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   /* Contenedor */
-  --container-max: 1200px;
+  --container-max: 1140px; /* Un poco más contenido para estilo editorial */
 }
 
 /* Breakpoints de referencia (documentales):
