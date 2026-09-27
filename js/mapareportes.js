@@ -1,16 +1,23 @@
 /* Alerta Verde — Controlador de la página "Mapa de reportes" (Fase 4).
-   Mapa simulado (sin librerías externas ni API keys): las coordenadas
-   lat/lng de AV.reports se proyectan a posiciones porcentuales dentro
-   de un contenedor. Cada marcador es un <button> real, así que el
-   mapa es utilizable con teclado; además existe una lista equivalente
-   totalmente accesible como alternativa al mapa. */
+   Mapa real con Mapbox GL JS: las coordenadas lat/lng de AV.reports se
+   proyectan sobre un mapa interactivo de verdad (calles, zoom, pan).
+   Cada marcador sigue siendo un <button> real superpuesto al mapa (no
+   un mapboxgl.Marker de fábrica), así que el mapa se mantiene
+   utilizable con teclado; además existe una lista equivalente
+   totalmente accesible como alternativa al mapa. Si Mapbox no está
+   disponible (sin conexión, script bloqueado, etc.) se usa una
+   proyección porcentual de respaldo para que la página no se rompa. */
 window.AV = window.AV || {};
 
 (function () {
-  var elMarkers, elCards, elEmpty, elCount;
+  var elMarkers, elCards, elEmpty, elCount, elMapaMapbox;
   var elFiltroEstado, elFiltroCategoria, elFiltroBusqueda, elFiltroReset;
   var elDetalle, elDetalleHeading, elDetalleInfo, elDetalleTimeline, elDetalleCerrar;
   var lastFocusedTrigger = null;
+
+  var mapboxMap = null;
+  var mapReady = false;
+  var encuadreInicialHecho = false;
 
   var ESTADO_META = {
     "enviado": { label: "Enviado", icon: "➤", clase: "enviado" },
@@ -28,10 +35,70 @@ window.AV = window.AV || {};
     return '<span class="badge badge--' + meta.clase + '"><span aria-hidden="true">' + meta.icon + "</span> " + meta.label + "</span>";
   }
 
-  /* Devuelve una función que convierte lat/lng en un punto {x, y}
-     porcentual dentro del contenedor del mapa, con un margen para
-     que ningún marcador quede pegado al borde. */
-  function crearProyeccion(reportes) {
+  /* --- Inicialización del mapa real (Mapbox GL JS) -------------------- */
+
+  function initMapaBase() {
+    elMapaMapbox = $("mapa-mapbox");
+    if (!elMapaMapbox || typeof mapboxgl === "undefined") {
+      mapboxMap = null;
+      return;
+    }
+    try {
+      mapboxgl.accessToken = AV.config.MAPBOX_TOKEN;
+      mapboxMap = new mapboxgl.Map({
+        container: "mapa-mapbox",
+        style: AV.config.MAPBOX_STYLE,
+        center: AV.config.MAPA_CENTER,
+        zoom: AV.config.MAPA_ZOOM,
+        cooperativeGestures: false
+      });
+
+      mapboxMap.addControl(new mapboxgl.NavigationControl({ showCompass: false }), "top-right");
+      mapboxMap.addControl(new mapboxgl.GeolocateControl({
+        positionOptions: { enableHighAccuracy: true },
+        trackUserLocation: true,
+        showAccuracyCircle: true
+      }), "top-right");
+
+      mapboxMap.on("load", function () {
+        mapReady = true;
+        ajustarEncuadreInicial();
+        render();
+      });
+      mapboxMap.on("move", reposicionarMarcadoresEnPantalla);
+      mapboxMap.on("resize", reposicionarMarcadoresEnPantalla);
+      mapboxMap.on("error", function () {
+        /* Un error de estilo/red no debe tumbar el resto de la página;
+           el mapa seguirá mostrando lo último que haya cargado y los
+           marcadores caen de vuelta a la proyección porcentual. */
+      });
+    } catch (e) {
+      mapboxMap = null;
+      mapReady = false;
+    }
+  }
+
+  function ajustarEncuadreInicial() {
+    if (encuadreInicialHecho || !mapboxMap) return;
+    var todos = AV.reports.getAll();
+    if (!todos.length) return;
+    var bounds = new mapboxgl.LngLatBounds();
+    todos.forEach(function (r) { bounds.extend([r.lng, r.lat]); });
+    mapboxMap.fitBounds(bounds, { padding: 48, maxZoom: 13, duration: 0 });
+    encuadreInicialHecho = true;
+  }
+
+  /* Traduce lat/lng a un punto en píxeles dentro de #mapa-mapbox
+     (misma caja que #mapa-markers, así que el resultado sirve
+     directamente como left/top del botón-marcador). */
+  function proyectarConMapbox(r) {
+    var punto = mapboxMap.project([r.lng, r.lat]);
+    return { x: punto.x, y: punto.y, unidad: "px" };
+  }
+
+  /* Respaldo sin Mapbox: proyecta lat/lng a un porcentaje dentro del
+     contenedor, estirando al rango de todos los reportes conocidos. */
+  function crearProyeccionRespaldo(reportes) {
     var lats = reportes.map(function (r) { return r.lat; });
     var lngs = reportes.map(function (r) { return r.lng; });
     var minLat = Math.min.apply(null, lats), maxLat = Math.max.apply(null, lats);
@@ -45,8 +112,24 @@ window.AV = window.AV || {};
     return function (r) {
       var x = ((r.lng - minLng) / rangoLng) * 100;
       var y = 100 - ((r.lat - minLat) / rangoLat) * 100;
-      return { x: clamp(x, 8, 92), y: clamp(y, 8, 92) };
+      return { x: clamp(x, 8, 92), y: clamp(y, 8, 92), unidad: "%" };
     };
+  }
+
+  /* Reubica los marcadores ya existentes cuando el usuario mueve o hace
+     zoom al mapa, sin tener que reconstruir los botones (más fluido). */
+  function reposicionarMarcadoresEnPantalla() {
+    if (!mapboxMap || !mapReady || !elMarkers) return;
+    var botones = elMarkers.querySelectorAll(".mapa-marker[data-lat]");
+    for (var i = 0; i < botones.length; i++) {
+      var btn = botones[i];
+      var lat = parseFloat(btn.getAttribute("data-lat"));
+      var lng = parseFloat(btn.getAttribute("data-lng"));
+      if (isNaN(lat) || isNaN(lng)) continue;
+      var punto = mapboxMap.project([lng, lat]);
+      btn.style.left = punto.x + "px";
+      btn.style.top = punto.y + "px";
+    }
   }
 
   function currentFilters() {
@@ -83,17 +166,21 @@ window.AV = window.AV || {};
     var todos = AV.reports.getAll();
     var base = todos.length ? todos : reportesFiltrados;
     if (!base.length) return;
-    var proyectar = crearProyeccion(base);
+
+    var usarMapbox = !!(mapboxMap && mapReady);
+    var proyectarRespaldo = usarMapbox ? null : crearProyeccionRespaldo(base);
 
     reportesFiltrados.forEach(function (r) {
-      var pos = proyectar(r);
+      var pos = usarMapbox ? proyectarConMapbox(r) : proyectarRespaldo(r);
       var meta = ESTADO_META[r.estado] || {};
       var btn = document.createElement("button");
       btn.type = "button";
       btn.className = "mapa-marker mapa-marker--" + (meta.clase || "");
-      btn.style.left = pos.x + "%";
-      btn.style.top = pos.y + "%";
+      btn.style.left = pos.x + pos.unidad;
+      btn.style.top = pos.y + pos.unidad;
       btn.setAttribute("data-report-id", r.id);
+      btn.setAttribute("data-lat", r.lat);
+      btn.setAttribute("data-lng", r.lng);
       btn.setAttribute("aria-label",
         "Reporte " + r.id + ", " + AV.data.getCategoryLabel(r.categoria) + ", " + r.direccion +
         ". Estado: " + (meta.label || r.estado) + ". Ver detalle.");
@@ -157,6 +244,10 @@ window.AV = window.AV || {};
     elDetalleHeading.textContent = "Detalle del reporte " + report.id;
     elDetalle.focus();
     AV.scrollIntoViewSafe(elDetalle);
+
+    if (mapboxMap && mapReady) {
+      mapboxMap.flyTo({ center: [report.lng, report.lat], zoom: Math.max(mapboxMap.getZoom(), 14), duration: 600 });
+    }
   }
 
   function cerrarDetalle() {
@@ -203,6 +294,7 @@ window.AV = window.AV || {};
     if (!elMarkers || !elCards) return;
 
     poblarSelectCategorias();
+    initMapaBase();
 
     elFiltroEstado.addEventListener("change", render);
     elFiltroCategoria.addEventListener("change", render);

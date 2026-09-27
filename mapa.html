@@ -10,12 +10,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/styles.css">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.9.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.9.1/mapbox-gl.js"></script>
 <script src="js/nav.js" defer></script>
 <script src="js/util.js" defer></script>
-<script src="js/data/categories.js" defer></script>
-<script src="js/data/reports.js" defer></script>
-<script src="js/modules/timeline.js" defer></script>
-<script src="js/modules/mapaReportes.js" defer></script>
+<script src="js/categories.js" defer></script>
+<script src="js/reports.js" defer></script>
+<script src="js/timeline.js" defer></script>
+<script src="js/mapareportes.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Saltar al contenido principal</a>
@@ -71,15 +73,11 @@
       <section class="mapa-panel" aria-labelledby="mapa-heading">
         <h2 id="mapa-heading">Mapa</h2>
         <div class="mapa-visual" id="mapa-visual">
-          <svg class="mapa-decor" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-            <rect width="100" height="100" style="fill:var(--color-bg-secondary)"></rect>
-            <path d="M0,70 C20,60 35,78 55,65 C75,52 85,68 100,58 L100,100 L0,100 Z" style="fill:var(--color-accent-sage);opacity:.35"></path>
-            <path d="M-5,20 C15,35 10,10 35,22 C55,32 60,8 90,18 L100,0 L0,0 Z" style="fill:var(--color-brand-primary);opacity:.12"></path>
-            <path d="M0,45 C25,40 30,55 50,48 C70,42 80,55 100,48" style="stroke:var(--color-info);stroke-width:1.2;fill:none;opacity:.4"></path>
-          </svg>
+          <div class="mapa-mapbox" id="mapa-mapbox" aria-hidden="true"></div>
           <div class="mapa-markers" id="mapa-markers"></div>
+          <noscript><p class="mapa-noscript">Activa JavaScript para ver el mapa interactivo. La lista de reportes de abajo sigue estando disponible.</p></noscript>
         </div>
-        <p class="mapa-disclaimer">Este mapa es una representación visual simplificada con fines de demostración; las posiciones son aproximadas y no corresponden a coordenadas verificadas.</p>
+        <p class="mapa-disclaimer">Los reportes son datos simulados con fines de demostración; las coordenadas no corresponden a afectaciones verificadas. Usa el botón de ubicación del mapa (▲, arriba a la derecha) para ubicarte a ti mismo.</p>
         <ul class="mapa-legend">
           <li><span class="legend-dot" style="background:var(--color-info)" aria-hidden="true">➤</span> Enviado</li>
           <li><span class="legend-dot" style="background:var(--color-brand-primary)" aria-hidden="true">✓</span> Verificado</li>

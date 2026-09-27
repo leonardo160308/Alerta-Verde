@@ -10,13 +10,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/styles.css">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.9.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.9.1/mapbox-gl.js"></script>
 <script src="js/nav.js" defer></script>
 <script src="js/util.js" defer></script>
-<script src="js/data/categories.js" defer></script>
-<script src="js/data/reports.js" defer></script>
-<script src="js/modules/geolocation.js" defer></script>
-<script src="js/modules/photoUpload.js" defer></script>
-<script src="js/modules/reportForm.js" defer></script>
+<script src="js/categories.js" defer></script>
+<script src="js/reports.js" defer></script>
+<script src="js/geolocation.js" defer></script>
+<script src="js/photoupload.js" defer></script>
+<script src="js/reportform.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Saltar al contenido principal</a>
@@ -59,6 +61,8 @@
         <div class="field">
           <button type="button" id="geo-button" class="button button-secondary">Usar mi ubicación actual</button>
           <p id="geo-status" class="field-hint" aria-live="polite"></p>
+          <div id="geo-preview-map" class="geo-preview-map" hidden role="img" aria-label="Vista previa de la ubicación detectada en el mapa"></div>
+          <p id="geo-preview-hint" class="field-hint" hidden>Puedes arrastrar el marcador verde para ajustar el punto exacto si el GPS no fue preciso.</p>
           <input type="hidden" id="geo-lat" name="geoLat">
           <input type="hidden" id="geo-lng" name="geoLng">
         </div>
