@@ -39,8 +39,10 @@ window.AV = window.AV || {};
 
   function initMapaBase() {
     elMapaMapbox = $("mapa-mapbox");
-    if (!elMapaMapbox || typeof mapboxgl === "undefined") {
+    if (!elMapaMapbox) { mapboxMap = null; return; }
+    if (typeof mapboxgl === "undefined") {
       mapboxMap = null;
+      console.warn("Alerta Verde: no se cargó la librería de Mapbox (mapbox-gl.js) — revisa la pestaña Red del navegador. Se usa la proyección de respaldo mientras tanto.");
       return;
     }
     try {
@@ -67,14 +69,18 @@ window.AV = window.AV || {};
       });
       mapboxMap.on("move", reposicionarMarcadoresEnPantalla);
       mapboxMap.on("resize", reposicionarMarcadoresEnPantalla);
-      mapboxMap.on("error", function () {
+      mapboxMap.on("error", function (e) {
         /* Un error de estilo/red no debe tumbar el resto de la página;
            el mapa seguirá mostrando lo último que haya cargado y los
-           marcadores caen de vuelta a la proyección porcentual. */
+           marcadores caen de vuelta a la proyección porcentual. El
+           motivo (token restringido a otro dominio, bloqueador de
+           contenido, etc.) queda en consola para diagnosticarlo. */
+        console.warn("Alerta Verde: error del mapa de Mapbox —", (e && e.error) || e);
       });
     } catch (e) {
       mapboxMap = null;
       mapReady = false;
+      console.warn("Alerta Verde: no se pudo inicializar Mapbox —", e);
     }
   }
 
